@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: food-frontend
+  ports:
+    - port: 80
+      targetPort: 80

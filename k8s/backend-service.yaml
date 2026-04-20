@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: food-backend
+spec:
+  selector:
+    app: food-backend
+  ports:
+    - port: 5000
+      targetPort: 5000

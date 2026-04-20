@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-frontend
+  template:
+    metadata:
+      labels:
+        app: food-frontend
+    spec:
+      containers:
+        - name: food-frontend
+          image: nikhilabba12/food-frontend:1
+          ports:
+            - containerPort: 80
