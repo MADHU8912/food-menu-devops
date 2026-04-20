@@ -46,6 +46,14 @@ pipeline {
             }
         }
 
+        stage('Trigger Render Deploy') {
+            steps {
+                withCredentials([string(credentialsId: 'render-deploy-hook', variable: 'RENDER_HOOK')]) {
+                    bat 'curl -X POST "%RENDER_HOOK%"'
+                }
+            }
+        }
+
         stage('Remove Old Container') {
             steps {
                 bat 'docker rm -f %CONTAINER_NAME% || exit 0'
@@ -62,6 +70,7 @@ pipeline {
             steps {
                 bat 'echo Build completed successfully > build-report.txt'
                 bat 'echo Image: %IMAGE_NAME%:%IMAGE_TAG% >> build-report.txt'
+                bat 'echo Render deploy triggered >> build-report.txt'
                 bat 'echo Container: %CONTAINER_NAME% >> build-report.txt'
                 bat 'type build-report.txt'
             }
