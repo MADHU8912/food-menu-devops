@@ -90,13 +90,9 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'build-report.txt, test-report.txt', fingerprint: true
         }
-        success {
-            echo 'Pipeline completed successfully'
-        }
         failure {
             bat 'echo Pipeline failed > build-report.txt'
             archiveArtifacts artifacts: 'build-report.txt', fingerprint: true
-            echo 'Pipeline failed'
         }
     }
 }
