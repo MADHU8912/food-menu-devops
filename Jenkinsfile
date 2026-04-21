@@ -31,6 +31,7 @@ pipeline {
                 bat 'echo Food menu app basic test passed > test-report.txt'
                 bat 'echo HTML file found >> test-report.txt'
                 bat 'echo CSS file found >> test-report.txt'
+                bat 'echo type Dockerfile >nul && echo Dockerfile found >> test-report.txt'
                 bat 'type test-report.txt'
             }
         }
@@ -42,9 +43,13 @@ pipeline {
                     usernameVariable: 'DOCKERHUB_USERNAME',
                     passwordVariable: 'DOCKERHUB_TOKEN'
                 )]) {
+<<<<<<< HEAD
                     bat '''
                         echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin
                     '''
+=======
+                    bat 'echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin'
+>>>>>>> 2fdc75f (final jenkins pipeline for build push pull render deploy)
                 }
             }
         }
