@@ -37,8 +37,12 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_TOKEN')]) {
-                    bat 'docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_TOKEN%'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USERNAME',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    bat 'docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_TOKEN%'
                 }
             }
         }
@@ -57,7 +61,7 @@ pipeline {
 
         stage('Trigger Render Deploy') {
             steps {
-                withCredentials([string(credentialsId: 'render-deploy-hook', variable: 'RENDER_HOOK')]) {
+                withCredentials([string(credentialsId: 'render-hook', variable: 'RENDER_HOOK')]) {
                     bat 'curl -X POST "%RENDER_HOOK%"'
                 }
             }
@@ -88,7 +92,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'build-report.txt, test-report.txt', fingerprint: true
+            archiveArtifacts artifacts: '*.txt', fingerprint: true
         }
     }
 }
